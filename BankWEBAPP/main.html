@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="static/css/mui.min.css">
+		<link rel="stylesheet" href="static/css/iconfont.css" />
+		<link rel="stylesheet" href="static/css/style.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #3388FF;
+			}
+			
+			.bank-card {
+				height: 100px;
+				width: 95%;
+				background-image: linear-gradient(156deg, #218cf7 8%, #25bef2 80%);
+				border-radius: 5px;
+				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+				margin: 0 auto;
+				color: #FFFFFF;
+				padding: 10px 10px;
+				margin-top: 10px;
+			}
+			/*工商*/
+			
+			.card-color1 {
+				background-image: linear-gradient(140deg, #a200ff 20%, #cf3700 80%);
+			}
+			/*邮政*/
+			
+			.card-color2 {
+				background-image: linear-gradient(156deg, #66cc66 8%, #25acd3 80%);
+			}
+			/*建设银行*/
+			
+			.card-color3 {
+				background-image: linear-gradient(160deg, #0078ff 20%, #25bef2 80%);
+			}
+			
+			.box-top {
+				background-color: #3388FF;
+				text-align: center;
+				width: 100%;
+				height: 100px;
+				border-bottom: 1px solid #EEEEEE;
+				color: #FFFFFF;
+				background-image: linear-gradient(90deg, #218cf7 8%, #25bef2 80%);
+			}
+			
+			.info-head {
+				width: 60px;
+				height: 60px;
+				margin-left: 23px;
+				border: 3px solid #EEEEEE;
+				border-radius: 40px;
+				background: white;
+			}
+			/*.Outline-box {
+				position: absolute;
+				background-color: #FFFFFF;
+				height: 110px;
+				width: 90%;
+				top: 120px;
+				margin: 0 5%;
+				border-radius: 20px;
+				box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.3);
+				padding: 5px 20px;
+			}*/
+			
+			.Outline-box2 {
+				/*position: absolute;*/
+				background-color: #FFFFFF;
+				height: auto;
+				width: 100%;
+				top: 375px;
+				margin: 0 auto;
+				border-radius: 0px;
+				/*box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.3);*/
+				/*padding: 5px 20px;*/
+				margin-top: 10px;
+			}
+			
+			.teb-item {
+				height: 45px;
+				padding: 2px 20px;
+				border-bottom: 1px solid #efeff4;
+				line-height: 45px;
+			}
+			
+			.teb-item:nth-last-child(1) {
+				height: 45px;
+				border-bottom: 0px solid #efeff4;
+			}
+			
+			.teb-item:active {
+				background: #efeff4;
+			}
+			
+			.teb-item-ico {
+				width: 40px;
+				height: 40px;
+				float: left;
+				line-height: 40px;
+				padding-top: 1px;
+				font-size: 20px;
+			}
+			
+			.teb-item-ico img {
+				width: 28px;
+				height: 28px;
+			}
+			
+			.teb-item-text {
+				float: left;
+				height: 40px;
+				line-height: 40px;
+				color: #333;
+				font-size: 16px;
+			}
+			
+			.point-item {
+				float: left;
+				width: 33.3%;
+				text-align: center;
+				padding: 5px;
+			}
+			
+			.point-item-title {
+				color: #999999;
+				font-size: 16px;
+			}
+			
+			.point-item-content {
+				color: #5e5e5e;
+				padding: 5px 0px;
+			}
+			
+			.mui-table-view.mui-grid-9 .mui-table-view-cell.mui-active {
+				background-image: linear-gradient(90deg, #218cf7 8%, #25bef2 80%);
+				color: #FFFFFF;
+				border-radius: 2px;
+			}
+			
+			.toAccount {
+				height: 50px;
+				width: 100%;
+				background-color: #FFFFFF;
+			}
+			
+			.hui-form {
+				background: #FFFFFF;
+			}
+			
+			.hui-form-items {
+				padding: 15px 10px;
+				border-bottom: 1px solid #F3F4F5;
+				position: relative;
+				display: -webkit-flex;
+				display: flex;
+				height: 50px;
+			}
+			
+			.hui-form-items-title {
+				width: 22%;
+				line-height: 22px;
+				height: 22px;
+				flex-shrink: 0;
+			}
+			
+			.hui-form-items input {
+				width: 100% !important;
+			}
+			
+			.hui-form-items:last-child {
+				border: none;
+			}
+			
+			.hui-form-items input {
+				height: 22px;
+				line-height: 24px;
+				border: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				border-radius: 0;
+				border: 0;
+				background: #FFF;
+				width: 100%;
+				display: block;
+				padding: 0px;
+			}
+			
+			.hui-button {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				border-radius: 3px;
+				border: 0;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				font-size: 15px;
+				height: 42px;
+				line-height: 42px;
+				outline: 0;
+				overflow: hidden;
+				position: relative;
+				text-align: center;
+				color: #656B79;
+				background-color: #F6F8F9;
+				box-shadow: 0 0 1px #B8BBBF;
+				padding: 0px 16px;
+			}
+			
+			.hui-button * {
+				color: inherit;
+			}
+			
+			.hui-button:active {
+				background: #C8C8C8;
+			}
+			
+			.hui-button-large {
+				width: 100%;
+			}
+			
+			.hui-primary {
+				background: #3388FF !important;
+				color: #FFFFFF !important;
+			}
+			
+			.hui-primary:active {
+				background: #0066CC !important;
+			}
+		</style>
+		<style>
+			.Pay {
+				height: 1000px;
+				z-index: 5;
+				position: fixed;
+				display: none;
+			}
+			
+			.zw-box {
+				height: 400px;
+				z-index: -1;
+				background: #000000;
+				filter: alpha(opacity=20);
+				-moz-opacity: 0.2;
+				-khtml-opacity: 0.2;
+				opacity: 0.2;
+			}
+			
+			.Pay-box {
+				display: block;
+				position: fixed;
+				width: 100%;
+				bottom: 280px;
+			}
+			
+			.Pay-box-top {
+				background-color: #FFFFFF;
+				border-bottom: 1px solid #DDDDDD;
+				height: 50px;
+				text-align: center;
+				padding-top: 12px;
+			}
+			
+			.Pay-box-top .hint-text {
+				line-height: 30px;
+			}
+			
+			.Pay-box-top img {
+				position: absolute;
+				right: 15px;
+				width: 25px;
+				height: 25px;
+			}
+			
+			.Pay-box-input {
+				background-color: #FFFFFF;
+				height: 100px;
+			}
+			
+			.box-input {
+				padding-top: 20px;
+				width: 360px;
+				margin: 0px auto;
+			}
+			
+			.Pay-box-item1 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px 0px 0px 5px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-item2 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-item3 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-item4 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-item5 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				border-right: 0px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-item6 {
+				width: 60px;
+				height: 50px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-radius: 0px 5px 5px 0px;
+				text-align: center;
+				line-height: 60px;
+				font-size: 40px;
+				color: #333;
+			}
+			
+			.Pay-box-foot {
+				display: block;
+				position: fixed;
+				width: 100%;
+				bottom: 45px;
+				background-color: #FFFFFF;
+				height: 240px;
+			}
+			
+			.Pay-box-code {
+				background-color: #FFFFFF;
+				text-align: center;
+			}
+			
+			.box-code-row {
+				text-align: center;
+			}
+			
+			.Pay-box-code1 {
+				width: 33.3%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-code2 {
+				width: 33.3%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				border-right: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-code3 {
+				width: 33.4%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-right: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-code4,
+			.Pay-box-code7,
+			.Pay-box-code10 {
+				width: 33.3%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				border-top: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-code5,
+			.Pay-box-code8,
+			.Pay-box-code0 {
+				width: 33.3%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-left: 0px;
+				border-right: 0px;
+				border-top: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-code6,
+			.Pay-box-code9,
+			.Pay-box-codex {
+				width: 33.4%;
+				height: 60px;
+				float: left;
+				border: 1px solid #DDDDDD;
+				border-right: 0px;
+				border-top: 0px;
+				font-size: 20px;
+				line-height: 60px;
+			}
+			
+			.Pay-box-codex,
+			.Pay-box-code10 {
+				background-color: #eee;
+			}
+			
+			.box-code-row div:active {
+				background: #eee;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+				<h1 class="mui-title" style="color: #FFFFFF;"></h1>
+			</header>
+			<nav class="mui-bar mui-bar-tab" style="background-color: #FFFFFF;">
+				<span id="kabaobtn" class="mui-tab-item">
+					<span class="mui-icon iconfont ">&#xe61f;</span>
+				<span class="mui-tab-label">卡包</span>
+				</span>
+				<span id="zhuanzhangbtn" class="mui-tab-item">
+					<span class="mui-icon iconfont">&#xe63f;</span>
+				<span class="mui-tab-label">转帐</span>
+				</span>
+				<span id="wodebtn" class="mui-tab-item">
+					<span class="mui-icon iconfont">&#xe61a;</span>
+				<span class="mui-tab-label">我的</span>
+				</span>
+			</nav>
+			<div class="mui-content">
+				<div v-cloak id="page1">
+					<div v-for="item in page1.data" v-cloak>
+						<div v-bind:class="item.bank_name|huanse" @click="{clickId=item.act_number,openDetail()}" v-bind:data-id="item.act_number">
+							<div style="font-size: 14px;">{{item.bank_name}}</div>
+							<div style="font-size: 12px;color: #F0F0F0;">{{item.type}}</div>
+							<div style="">**** **** **** {{item.act_number|buchong}}</div>
+						</div>
+
+					</div>
+
+					<div style="padding-top: 10px;padding-left: 10px;">
+						<!--<span style="font-size: 30px;color: #3388FF;">+</span>-->
+						<span style="color: #3388FF;padding-bottom: 5px;" @click="addBankCard()">+添加银行卡</span>
+					</div>
+				</div>
+				<div  id="page2" style="display: none;">
+					<div style="margin:20px 10px; margin-bottom:15px;" class="hui-form">
+						<div class="hui-form-items">
+							<div class="hui-form-items-title">转入账号</div>
+							<input type="text" class="hui-input" placeholder="请输入要转入金额的账号" id="name" v-model="page2.transferToNum" />
+						</div>
+						<div class="hui-form-items">
+							<div class="">支付金额￥{{page2.memoney}}</div>
+							<div class="mui-pull-right" style="color: #FF0000;padding-left: 5px;" v-if="page2.memoney>999999">数额过大</div>
+						</div>
+						<div class="mui-row">
+							<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #FFFFFF;">
+								<li class="mui-table-view-cell mui-media mui-col-xs-2 mui-col-sm-2" v-for="n in (0,9)" @click="add(n)">
+									{{n}}
+								</li>
+								<li class="mui-table-view-cell mui-media mui-col-xs-2 mui-col-sm-2" v-if="page2.memoney>0" @click="add(0)">
+									0
+								</li>
+								<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" @click="clear()">
+									清除
+								</li>
+							</ul>
+
+						</div>
+						<div>
+							<ul class="mui-table-view mui-table-view-radio">
+								<li @click="select(item.act_number)" class="mui-table-view-cell mui-media" v-for="(item,index) in page1.data" v-cloak>
+									<a class="mui-navigate-right">
+										<img class="mui-media-object mui-pull-left" v-bind:src="item.bank_name|bank">
+										<div class="mui-media-body">
+											<p class="payway">{{item.bank_name}} {{item.type}}</p>
+											<p class='mui-ellipsis'>**** **** **** {{item.act_number|buchong}}</p>
+										</div>
+									</a>
+								</li>
+
+							</ul>
+						</div>
+						<div style="padding:10px; padding-top:50px;">
+							<button type="button" class="hui-button hui-button-large hui-primary" id="submit" v-on:click="transfer()">转账</button>
+						</div>
+					</div>
+					<div class="Pay" id="Pay" v-cloak>
+						<div class="Pay-box">
+							<div class="zw-box">
+							</div>
+							<div class="Pay-box-top">
+								<span class="hint-text">请输入支付密码</span>
+								<span id="close-btn" @click="close()"><img src="static/img/close.png" /></span>
+							</div>
+							<div class="Pay-box-input">
+								<div class="box-input">
+									<div class="Pay-box-item1">{{page2.code[0]}}</div>
+									<div class="Pay-box-item2">{{page2.code[1]}}</div>
+									<div class="Pay-box-item3">{{page2.code[2]}}</div>
+									<div class="Pay-box-item4">{{page2.code[3]}}</div>
+									<div class="Pay-box-item5">{{page2.code[4]}}</div>
+									<div class="Pay-box-item6">{{page2.code[5]}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="Pay-box-foot">
+							<div class="Pay-box-code">
+								<div class="box-code-row">
+									<div class="Pay-box-code1" @click="code(1)">1</div>
+									<div class="Pay-box-code2" @click="code(2)">2</div>
+									<div class="Pay-box-code3" @click="code(3)">3</div>
+								</div>
+								<div class="box-code-row">
+									<div class="Pay-box-code4" @click="code(4)">4</div>
+									<div class="Pay-box-code5" @click="code(5)">5</div>
+									<div class="Pay-box-code6" @click="code(6)">6</div>
+								</div>
+								<div class="box-code-row">
+									<div class="Pay-box-code7" @click="code(7)">7</div>
+									<div class="Pay-box-code8" @click="code(8)">8</div>
+									<div class="Pay-box-code9" @click="code(9)">9</div>
+								</div>
+								<div class="box-code-row">
+									<div class="Pay-box-code10">&nbsp;</div>
+									<div class="Pay-box-code0" @click="code(0)">0</div>
+									<div class="Pay-box-codex" @click="del()">Del</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div  id="page3" style="display: none;">
+					<div class="box-top">
+						<div>
+							<div class="mui-pull-left info-head">
+								<img v-bind:src="page3.userimg" style="height: 100%;width: 100%;border-radius: 40px;" @click="changeImg('url')" />
+							</div>
+							<div style="float: left;padding-top:12px;padding-left: 20px;text-align: left;">
+								<div>{{page3.username}}</div>
+								<div>ID:{{page3.userid}}</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="Outline-box2 ">
+
+						<div class="teb-item">
+							<div class="teb-item-ico">
+								<i class="mui-icon iconfont" style="color: #f9d423;font-size: 22px;">&#xe604;</i>
+							</div>
+							<div class="teb-item-text">转账记录</div>
+							<div class="mui-pull-right mui-icon mui-icon-arrowright" style="padding-top: 10px;color: #E3E3E3;"></div>
+						</div>
+					</div>
+					<div class="Outline-box2 ">
+						<div class="teb-item">
+							<div class="teb-item-ico">
+								<i class="mui-icon iconfont" style="color: #2575fc;font-size: 22px;">&#xe65a;</i>
+							</div>
+							<div class="teb-item-text">我的卡包</div>
+							<div class="mui-pull-right mui-icon mui-icon-arrowright" style="padding-top: 10px;color: #E3E3E3;"></div>
+						</div>
+						<div class="teb-item">
+							<div class="teb-item-ico">
+								<i class="mui-icon iconfont" style="color: #fee140;font-size: 22px;">&#xe647;</i>
+							</div>
+							<div class="teb-item-text">我的余额</div>
+							<div class="mui-pull-right mui-icon mui-icon-arrowright" style="padding-top: 10px;color: #E3E3E3;"></div>
+						</div>
+						<div class="teb-item">
+							<div class="teb-item-ico">
+								<i class="mui-icon iconfont" style="color: #96e6a1;font-size: 22px;">&#xe606;</i>
+							</div>
+							<div class="teb-item-text">安全中心</div>
+							<div class="mui-pull-right mui-icon mui-icon-arrowright" style="padding-top: 10px;color: #E3E3E3;"></div>
+						</div>
+					</div>
+					<div class="Outline-box2 ">
+						<div class="teb-item">
+							<div class="teb-item-ico">
+								<i class="mui-icon iconfont" style="color: #686868;font-size: 22px;">&#xe68d;</i>
+							</div>
+							<div class="teb-item-text">设置</div>
+							<div class="mui-pull-right mui-icon mui-icon-arrowright" style="padding-top: 10px;color: #E3E3E3;"></div>
+						</div>
+					</div>
+					<div class="Outline-box2 ">
+						<div class="teb-item">
+							<div style="line-height: 40px;font-size: 16px;text-align: center;color: #999999;" @click="exit()">退出系统</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="static/js/config.js"></script>
+		<script type="text/javascript" src="static/js/vue/vue.min.js"></script>
+		<script type="text/javascript" src="static/js/vue/vue-resource.min.js"></script>
+		<script src="static/js/mui.min.js"></script>
+		<script type="text/javascript" src="static/js/jquery-3.1.1.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			window.onload = function() {
+
+				var app = new Vue({
+					el: "#app",
+					data: {
+						cur: 0, //默认选中第一个tab
+						title: '卡包',
+						clickId: '',
+						isIdentity: sessionStorage.getItem('isIdentity') || '',
+						userid: sessionStorage.getItem('account') || '',
+						page1: {
+							data: [],
+							cardcolor: 'bank-card card-color',
+
+						},
+						page2: {
+							memoney: '', //操作金额
+							temp: '',
+							code: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+							codenum: [],
+							selectNum: '', //选择银行卡号
+							transferToNum: '', //转入卡号
+							pass: '', //卡号密码
+						},
+						page3: {
+							userid: sessionStorage.getItem('account') || '',
+							username: '',
+							userimg: 'static/img/head.jpg',
+						},
+					},
+					filters: {
+						buchong: function(value) {
+							return value.substr(value.length - 4);
+						},
+						bank: function(value) {
+							switch(value) {
+								case "工商银行":
+									return "static/img/bank/gongshang.png";
+									break;
+								case "广发银行":
+									return "static/img/bank/guangfa.png";
+									break;
+								case "建设银行":
+									return "static/img/bank/jianshe.png";
+									break;
+								case "交通银行":
+									return "static/img/bank/jiaotong.png";
+									break;
+								default:
+									return "static/img/bank/bank.png";
+									break;
+							}
+						},
+						huanse: function(value) {
+							switch(value) {
+								case "工商银行":
+									return "bank-card card-color1";
+									break;
+								case "邮政银行":
+									return "bank-card card-color2";
+									break;
+								case "建设银行":
+									return "bank-card card-color3";
+									break;
+								default:
+									return "bank-card card-color";
+									break;
+							}
+
+						},
+					},
+					methods: {
+						init: function() {
+							app.getPageOneData();
+							app.getPageThreeData();
+						},
+						getPageOneData: function() {
+							this.$http.post(SERVER_URL + 'user/queryBankBindCard', {
+								userid: this.userid
+							}, { emulateJSON: true }).then(function(res) {
+								var msg = res.body;
+								console.log(JSON.stringify(msg));
+								if(msg[0].code == 200) {
+									app.page1.data = msg[0].data;
+								}
+							}, function(res) {
+								console.log(res.status);
+							});
+						},
+						getPageThreeData: function() {
+							this.$http.post(SERVER_URL + 'user/queryUserInfo', {
+								account: this.userid
+							}, { emulateJSON: true }).then(function(res) {
+								var msg = res.body;
+								console.log(JSON.stringify(msg));
+								if(msg[0].code == 200) {
+									this.page3.userimg = msg[0].userimg || 'static/img/head.jpg';
+									this.page3.username = msg[0].username || '';
+									this.page3.isIdentity = msg[0].isIdentity;
+								}
+							}, function(res) {
+								console.log(res.status);
+							});
+						},
+						addBankCard: function() {
+							if(this.isIdentity != 1) {
+								console.log("请身份认证");
+								mui.toast("请进行身份实名认证!");
+								setTimeout(function() {
+									app.toPage("identity.html");
+								}, 1000);
+							} else {
+								app.toPage("addbankcard.html");
+							}
+						},
+						openDetail: function() {
+							console.log(this.clickId);
+							localStorage.setItem('clickId', this.clickId);
+						},
+						toPage: function($page) {
+							console.log('跳转页面');
+							self.location = $page;
+						},
+						transfer: function() {
+							console.log('转账');
+							if(this.page2.selectNum.length < 1) {
+								mui.toast("请选择转账账户！");
+							} else if(this.page2.memoney < 999999 && this.page2.memoney > 0) {
+								this.show(); //显示
+							} else {
+								mui.toast("数额有误,无法发起转账！");
+							}
+						},
+						add: function($num) {
+							var memoney = this.page2.memoney;
+							var temp = memoney + '' + $num;
+							if(memoney < 999999)
+								this.page2.memoney = temp;
+							console.log(temp);
+						},
+						clear: function() {
+							this.page2.memoney = '';
+						},
+						code: function($num) {
+							console.log('輸入：' + $num);
+							var len = this.page2.codenum.length;
+							if(len < 6) {
+								this.page2.codenum.push($num);
+								for(var i = 0; i < this.page2.codenum.length; i++) {
+									this.page2.code[i] = '*';
+								}
+							}
+							if(this.page2.codenum.length == 6) {
+								this.page2.pass = this.page2.codenum.join('');
+								this.toPay(); //支付
+							}
+
+						},
+						del: function() {
+							console.log('刪除');
+							this.page2.codenum.pop();
+							var index = this.page2.codenum.length;
+							this.page2.code[index] = '';
+							console.log('數組：' + this.page2.codenum);
+						},
+						toPay: function() {
+							console.log("num:" + this.page2.transferToNum);
+							console.log("pass:" + this.page2.pass);
+							console.log("memoney:" + this.page2.memoney);
+							console.log("select:" + this.page2.selectNum);
+
+							this.$http.post(SERVER_URL + 'bank/transferMoney', {
+								from_account: this.page2.selectNum,
+								to_account: this.page2.transferToNum,
+								money: this.page2.memoney,
+								code: this.page2.pass,
+							}, { emulateJSON: true }).then(function(res) {
+								var msg = res.body;
+								console.log(JSON.stringify(msg));
+								if(msg[0].code == 200) {
+									mui.toast(msg[0].msg);
+									this.close();
+								} else {
+									mui.toast(msg[0].msg);
+								}
+							}, function(res) {
+								console.log(res.status);
+							});
+						},
+						close: function() { //关闭支付显示
+							this.page2.code = { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' };
+							this.page2.codenum = [];
+							document.getElementById("Pay").style.display = "none";
+						},
+						show: function() { //关闭支付显示
+							document.getElementById("Pay").style.display = "block";
+						},
+						select: function($val) {
+							console.log("选择" + $val);
+							this.page2.selectNum = $val;
+							/*								console.log("选择后"+this.page2.selectNum);*/
+						},
+						changeImg: function($url) {
+							console.log($url);
+							self.location = "imgcut.html";
+						},
+						exit: function() {
+							self.location = "login.html";
+						}
+					},
+
+				});
+				/*console.log(app.isIdentity);*/
+				app.init();
+				$(document).on('click', '#kabaobtn', function() {
+					console.log(app.cur);
+					app.cur = 0;
+					$('.mui-title').html("卡包");
+					$("#page1").show();
+					$("#page2").hide();
+					$("#page3").hide();
+				});
+				$(document).on('click', '#zhuanzhangbtn', function() {
+					console.log(app.cur);
+					app.cur = 1;
+					$('.mui-title').html("转账");
+					$("#page2").show();
+					$("#page1").hide();
+					$("#page3").hide();
+				});
+				$(document).on('click', '#wodebtn', function() {
+					console.log(app.cur);
+					app.cur = 2;
+					$('.mui-title').html("我的");
+					$("#page3").show();
+					$("#page2").hide();
+					$("#page1").hide();
+				});
+				$(document).on('click', '.bank-card', function() {
+					var oid = $(this).attr('data-id').toString();
+					console.log(oid);
+					localStorage.setItem('clickId', oid);
+					mui.openWindow({
+						url: 'bankdetail.html',
+						id: 'bankdetail',
+						preload: true,
+						show: {
+							aniShow: 'pop-in'
+						},
+						extras: {
+							'oid': oid,
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+
+			}
+		</script>
+	</body>
+
+</html>

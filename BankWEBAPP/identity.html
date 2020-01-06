@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>实名认证</title>
+		<link rel="stylesheet" type="text/css" href="static/css/mui.min.css" />
+		<link href="static/css/style.css" rel="stylesheet" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 15px;
+				color: #000000;
+				outline: none;
+				-webkit-text-size-adjust: 100%;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				font-style: normal;
+				-webkit-tap-highlight-color: transparent;
+				font-family: sans-serif;
+			}
+			
+			div {
+				overflow: hidden;
+			}
+			
+			::-webkit-scrollbar {
+				display: none;
+			}
+			
+			.hui-center-title {
+				width: 100%;
+				margin-bottom: 10px;
+			}
+			
+			.hui-center-title h1 {
+				width: 50%;
+				margin: 0 auto;
+				text-align: center;
+				border-bottom: 1px solid #E3E3E3;
+				height: 50px;
+				line-height: 50px;
+				font-size: 17px;
+				overflow: hidden;
+				font-weight: 400;
+			}
+			
+			.hui-form {
+				background: #FFFFFF;
+			}
+			
+			.hui-form-items {
+				padding: 15px 10px;
+				border-bottom: 1px solid #F3F4F5;
+				position: relative;
+				display: -webkit-flex;
+				display: flex;
+				height: 50px;
+			}
+			
+			.hui-form-items-title {
+				width: 22%;
+				line-height: 22px;
+				height: 22px;
+				flex-shrink: 0;
+			}
+			
+			.hui-form-items input {
+				width: 100% !important;
+			}
+			
+			.hui-form-items:last-child {
+				border: none;
+			}
+			
+			.hui-form-items input {
+				height: 22px;
+				line-height: 22px;
+				border: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				border-radius: 0;
+				border: 0;
+				background: #FFF;
+				width: 100%;
+				display: block;
+				padding: 0px;
+			}
+			
+			.hui-button {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				border-radius: 3px;
+				border: 0;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				display: block;
+				font-size: 15px;
+				height: 42px;
+				line-height: 42px;
+				outline: 0;
+				overflow: hidden;
+				position: relative;
+				text-align: center;
+				color: #656B79;
+				background-color: #F6F8F9;
+				box-shadow: 0 0 1px #B8BBBF;
+				padding: 0px 16px;
+			}
+			
+			.hui-button * {
+				color: inherit;
+			}
+			
+			.hui-button:active {
+				background: #C8C8C8;
+			}
+			
+			.hui-button-large {
+				width: 100%;
+			}
+			
+			.hui-primary {
+				background: #3388FF !important;
+				color: #FFFFFF !important;
+			}
+			
+			.hui-primary:active {
+				background: #0066CC !important;
+			}
+		</style>
+	</head>
+
+	<body style="background:#F4F5F6;">
+		<header class="mui-bar mui-bar-nav">
+			<span class="mui-action-back mui-icon mui-icon-arrowleft mui-pull-left" style="color: #FFFFFF;"></span>
+			<h1 class="mui-title" style="color: #FFFFFF;">实名认证</h1>
+
+		</header>
+		<div class="mui-content" id="app">
+			<div style="margin:20px 10px; margin-bottom:15px;" class="hui-form" id="form1">
+				<div class="hui-form-items">
+					<div class="hui-form-items-title">真实姓名</div>
+					<input type="text" class="hui-input" placeholder="如：张三" id="name" v-model="name"/>
+				</div>
+				<div class="hui-form-items">
+					<div class="hui-form-items-title">身份证号</div>
+					<input type="text" class="hui-input" placeholder="身份证号" id="ID" v-model="id" />
+				</div>
+				<!--<div class="hui-form-items">
+					<div class="hui-form-items-title">手机号码</div>
+					<input type="text" class="hui-input" placeholder="如：183xxxxxxxx" id="account" v-model="userid"/>
+				</div>-->
+			</div>
+			<div style="padding:10px; padding-top:80px;">
+				<button type="button" class="hui-button hui-button-large hui-primary" id="submit" v-on:click="register()">立即认证</button>
+			</div>
+		</div>
+	</body>
+		<script type="text/javascript" src="static/js/config.js"></script>
+		<script type="text/javascript" src="static/js/vue/vue.min.js"></script>
+		<script type="text/javascript" src="static/js/vue/vue-resource.min.js"></script>
+		<script type="text/javascript" src="static/js/mui.min.js" ></script>
+		<script>
+			window.onload=function(){
+				new Vue({
+					'el':'#app',
+					data:{
+						name:'',
+						userid: localStorage.getItem('account') || '',
+						id:'',
+						isIdentity:sessionStorage.getItem('isIdentity')||'',
+					},
+					methods:{
+						register:function(){
+							if(this.isIdentity==1){
+								mui.toast("已认证过，无需重复认证！");
+								return;
+							}
+							console.log("注册"+this.name+this.id);
+							this.$http.post(SERVER_URL+'user/userIdentify', 
+							{ name: this.name, id: this.id,account:this.userid},
+							{ emulateJSON: true }).then(function(res) {
+								var msg = res.body;
+								console.log(JSON.stringify(msg));
+								mui.toast(msg[0].msg);
+								if(msg[0].code==200){
+									sessionStorage.setItem('isIdentity', 1);
+									self.location='main.html';
+								}
+							}, function(res) {
+								console.log(res.status);
+							});
+						}
+						
+						
+					}
+						
+				})
+			}
+		</script>
+	</body>
+
+</html>

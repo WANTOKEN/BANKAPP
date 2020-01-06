@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link rel="shortcut icon" href="../static/img/favicon_1.ico">
+
+		<title>用户</title>
+
+
+		<!-- Bootstrap core CSS -->
+		<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../static/css/bootstrap-reset.css" rel="stylesheet">
+
+		<!--Animation css-->
+		<link href="../static/css/animate.css" rel="stylesheet">
+
+		<!--Icon-fonts css-->
+		<link href="../static/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<link href="../static/assets/ionicon/css/ionicons.min.css" rel="stylesheet" />
+
+		<!-- DataTables -->
+		<link href="../static/assets/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<link href="../static/assets/sweet-alert/sweet-alert.min.css" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="../static/css/style.css" rel="stylesheet">
+		<link href="../static/css/helper.css" rel="stylesheet">
+		<link href="../static/css/style-responsive.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+
+		<!-- Aside Start-->
+		<aside class="left-panel">
+
+			<!-- brand -->
+			<div class="logo">
+				<a href="#" class="logo-expanded">
+					<img src="../static/img/single-logo.png" alt="logo">
+					<span class="nav-label">SCBANK系统</span>
+				</a>
+			</div>
+			<!-- / brand -->
+
+			<!-- Navbar Start -->
+			<nav class="navigation">
+				<ul class="list-unstyled">
+					<li class="has-submenu ">
+						<a href="/idcard"><i class="ion-card"></i>
+							<span class="nav-label">IDCARD</span>
+						</a>
+					</li>
+					<li class="has-submenu ">
+						<a href="/bank"><i class="ion-cash"></i>
+							<span class="nav-label">BANKCARD</span></a>
+					</li>
+					<li class="has-submenu active">
+						<a href="/user"><i class="ion-android-social-user"></i>
+							<span class="nav-label">USER</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
+		</aside>
+		<!-- Aside Ends-->
+
+		<!--Main Content Start -->
+		<section class="content">
+
+			<!-- Header -->
+			<header class="top-head container-fluid">
+				<button type="button" class="navbar-toggle pull-left">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+				<!-- Search -->
+				<form role="search" class="navbar-left app-search pull-left hidden-xs">
+					<input type="text" placeholder="搜索..." class="form-control">
+				</form>
+
+				<!-- Left navbar -->
+				<nav class=" navbar-default hidden-xs" role="navigation">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">Language<span class="caret"></span></a>
+							<ul role="menu" class="dropdown-menu">
+								<li>
+									<a href="#">中文简体</a>
+								</li>
+								<li>
+									<a href="#">English</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+
+			</header>
+			<!-- Header Ends -->
+			<!-- Page Content Start -->
+			<!-- ================== -->
+			<div class="wraper container-fluid" >
+				<div class="page-title">
+					<h3 class="title">USER数据</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">USERDATA</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<table id="datatable" class="table table-striped table-bordered">
+											<thead>
+												<tr>
+													<th style="text-align: center;">ID</th>
+													<th style="text-align: center;">登录账号</th>
+													<th style="text-align: center;">用户名</th>
+													<th style="text-align: center;">注册时间</th>
+													<th style="text-align: center;">是否身份认证</th>
+												</tr>
+											</thead>
+											<tbody id="data-row" style="text-align: center;">
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<!-- Footer Start -->
+					<footer class="footer">
+						2019 © SCBANK.
+					</footer>
+					<!-- Footer Ends -->
+			</div>
+		</section>
+		<!-- Main Content Ends -->
+
+		<!-- js placed at the end of the document so the pages load faster -->
+		<script src="../static/js/jquery.js"></script>
+		<script src="../static/js/bootstrap.min.js"></script>
+		<script src="../static/js/pace.min.js"></script>
+		<script src="../static/js/modernizr.min.js"></script>
+		<script src="../static/js/wow.min.js"></script>
+		<script src="../static/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+		<script src="../static/assets/sweet-alert/sweet-alert.min.js"></script>
+		<script src="../static/assets/sweet-alert/sweet-alert.init.js"></script>
+
+		<script src="../static/js/jquery.app.js"></script>
+		<!--vue.js-->
+		<script src="../static/js/vue/vue.min.js"></script>
+		<script src="../static/js/vue/vue-resource.min.js"></script>
+
+		<script src="../static/js/config.js"></script>
+		<script src="../static/assets/datatables/jquery.dataTables.min.js"></script>
+		<script src="../static/assets/datatables/dataTables.bootstrap.js"></script>
+		<script type="text/javascript">
+			function getDatas() {
+				var table;
+				table = $('#datatable');
+				table.dataTable({
+					/*"bProcessing": true,*/
+					lengthMenu: [
+						[10, 25, 50, -1],
+						[10, 25, 50, "全部"]
+					],
+					searching: true, //是否显示查询
+					lengthChange: true, //是否使用下位列表选择分页大小
+					//ordering:false,//全部禁止排序
+					paginationType: "full_numbers", //分页按钮：有精简和全功能几种选项
+					//语言国际化设置，默认是英文的
+					language: {
+						lengthMenu: "显示 _MENU_ 记录",
+						zeroRecords: "没有找到记录",
+						info: "每页显示 10 条 当前显示 _START_ 到 _END_ 条，第 <span style='color:red'>_PAGE_</span> 页 ( 总共 _PAGES_ 页 ) 共 _TOTAL_ 条记录",
+						infoEmpty: "没有找到记录",
+						infoFiltered: "(从 _MAX_ 条记录过滤)",
+						paginate: {
+							first: "首页",
+							previous: " 上一页",
+							next: " 下一页 ",
+							last: " 尾页 "
+						},
+						search: "模糊查询：" //查询按钮显示的文本
+					},
+					"ajax": {
+						"url": SERVER_URL + 'queryAllUser',
+						dataSrc: ""
+					},
+					/*"sAjaxSource": SERVER_URL + 'GoodsData',*/
+					"columns": [
+						{ "data": "id" },
+						{ "data": "account" },
+						{ "data": "username" },
+						{ "data": "reg_time" },
+						{ "data": "identify_card" },
+						
+						
+						
+					],
+					'aoColumnDefs': [{ //去掉排序
+						'bSortable': false,
+						
+					}],
+
+				});
+			}
+			window.onload = function(){
+				getDatas();
+			}
+				
+			
+		</script>
+	</body>
+
+</html>

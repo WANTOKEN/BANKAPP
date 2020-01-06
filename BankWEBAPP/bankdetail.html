@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="static/css/mui.min.css">
+		<link rel="stylesheet" href="static/css/iconfont.css" />
+		<link rel="stylesheet" href="static/css/style.css" />
+		<style>
+			html,
+			body {
+				background-color: #FFFFFF;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #3388FF;
+			}
+			
+			.box-top {
+				background-color: #3388FF;
+				text-align: center;
+				width: 100%;
+				height: 130px;
+				border-bottom: 1px solid #EEEEEE;
+				color: #FFFFFF;
+				background-image: linear-gradient(90deg, #218cf7 8%, #25bef2 80%);
+			}
+			
+			.Outline-box1 {
+				position: absolute;
+				background-color: #FFFFFF;
+				height: 125px;
+				width: 94%;
+				top: 100px;
+				margin: 0 3%;
+				border-radius: 5px;
+				box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.3);
+				padding: 5px 20px;
+			}
+			
+			.teb-item {
+				height: 50px;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.teb-item:nth-last-child(1) {
+				height: 50px;
+				border-bottom: 0px solid #ccc;
+			}
+			
+			.teb-item:active {
+				background: #eee;
+			}
+			
+			.teb-item-ico {
+				width: 50px;
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				padding-top: 10px;
+			}
+			
+			.teb-item-ico img {
+				width: 28px;
+				height: 28px;
+			}
+			
+			.teb-item-text {
+				float: left;
+				height: 50px;
+				line-height: 50px;
+				color: #333;
+				font-size: 16px;
+			}
+			
+			.point-item {
+				float: left;
+				width: 33.3%;
+				text-align: center;
+				padding: 5px;
+			}
+			
+			.point-item-title {
+				color: #999999;
+				font-size: 16px;
+			}
+			
+			.point-item-content {
+				color: #5e5e5e;
+				padding: 5px 0px;
+			}
+			
+			.content-box {
+				background-color: #FFFFFF;
+				padding-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<span class="mui-action-back mui-icon mui-icon-arrowleft mui-pull-left " style="color: #FFFFFF;"></span>
+			<h1 class="mui-title" style="color: #FFFFFF;">银行卡</h1>
+		</header>
+		<div class="mui-content" id="app">
+			<div class="box-top" style="text-align: left; padding: 5px 25px;">
+				<div>卡号：{{qid}} </div>
+				<div style="text-align: left; padding: 5px 2px;">
+					持卡人：{{bankowner}}&nbsp;&nbsp;&nbsp; 余额：{{money}}（元）
+				</div>
+			</div>
+			<div class="Outline-box1">
+				<div class="teb-item">
+					<div class="teb-item-ico"><img v-bind:src="bankname|bank"></div>
+					<div class="teb-item-text">{{bankname}} {{banktype}}</div>
+				</div>
+				<div class="point-item">
+					<div class="point-item-content">
+						<span class="Cost" style="color:#3388FF;">
+							{{toCount()}}
+						</span>
+					</div>
+					<div class="point-item-title">
+						操作笔数
+					</div>
+				</div>
+				<div class="point-item">
+					<div class="point-item-content">
+						<span class="Obtain" style="color: #F0AD4E;" id="receveNum">+0
+						</span>
+					</div>
+					<div class="point-item-title">
+						转入金额
+					</div>
+				</div>
+				<div class="point-item">
+					<div class="point-item-content" id="costNum">-0</div>
+					<div class="point-item-title">
+						转出金额
+					</div>
+				</div>
+			</div>
+			<div class="content-box ">
+				<div style="height: 30px;border-left:#007AFF 5px solid;padding-left: 15px;line-height: 30px;
+						background-color: #FFFFFF;color: #333333;margin-bottom: 1px;">
+					交易记录</div>
+			<div class="mui-table-view mui-row mui-table-view-cell" v-for="item in items" v-cloak>
+				<div class="mui-col-xs-3 mui-col-sm-3" style="text-align: center;">
+					<div style="font-size: 18px;color: #333333;">{{item.commandTime|getdate}}</div>
+					<div style="font-size: 14px;color: #999999;">
+						{{item.commandTime|getyear}}</div>
+				</div>
+				<div class="mui-col-xs-6 mui-col-sm-6">
+					<div style="font-size: 18px;color: #333333;">
+						{{item.type}}</div>
+					<div style="font-size: 14px;color: #999999;" v-if="item.flag==0">
+						转出{{item.toAccount}}</div>
+						<div style="font-size: 14px;color: #999999;" v-else>
+						来自{{item.fromAccount}}</div>
+				</div>
+				<div v-if="item.flag==0" class="mui-col-xs-3 mui-col-sm-3" style="font-size: 18px;color: #5e5e5e;line-height: 45px;">
+					-{{item.money,countcost(item.money)}}
+				</div>
+				<div v-else class="mui-col-xs-3 mui-col-sm-3" style="font-size: 18px;color: #F0AD4E;line-height: 45px;">
+					+{{item.money,countreceve(item.money)}}
+				</div>
+			</div>
+		</div>
+		</div>
+		<script type="text/javascript" src="static/js/config.js"></script>
+	<script type="text/javascript" src="static/js/vue/vue.min.js"></script>
+	<script type="text/javascript" src="static/js/vue/vue-resource.min.js"></script>
+	<script type="text/javascript" src="static/js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		mui.init();
+		mui.plusReady(function() {
+				var page = plus.webview.currentWebview();
+				//接受上一页面传过来的值；
+				var oid = page.oid;
+				console.log(oid);
+			});
+			
+			window.onload = function() {
+				var costNum = 0;
+				var recevNum = 0;
+				var app = new Vue({
+					'el': '#app',
+					data: {
+						qid: localStorage.getItem('clickId') || '',
+						items: '',
+						cost: costNum || 0,
+						receve: recevNum || 0,
+						money: 0,
+						bankname: '银行卡',
+						banktype: '',
+						bankowner: ''
+
+					},
+					filters: {
+						getdate: function(value) {
+							return value.substr(5, 5);
+						},
+						getyear: function(value) {
+							return value.substr(0, 4);
+						},
+						bank:function(value){
+							switch (value){
+								case "工商银行":
+									return "static/img/bank/gongshang.png";
+									break;
+								case "广发银行":
+									return "static/img/bank/guangfa.png";
+									break;
+								case "建设银行":
+									return "static/img/bank/jianshe.png";
+									break;
+								case "交通银行":
+									return "static/img/bank/jiaotong.png";
+									break;
+								default:
+									return "static/img/bank/bank.png";
+									break;
+							}
+						}
+
+					},
+					methods: {
+						init: function() {
+							this.getItems();
+						},
+						toCount: function() {
+							return this.items.length;
+						},
+						countcost: function(value) {
+							costNum += value;
+							/*console.log(costNum);*/
+							document.getElementById("costNum").innerHTML = "-" + costNum;
+						},
+						countreceve: function(value) {
+							recevNum += value;
+							/*console.log("r:"+recevNum);*/
+							document.getElementById("receveNum").innerHTML = "+" + recevNum;
+						},
+						getItems: function() {
+
+							this.$http.post(SERVER_URL + 'bank/queryBankDetail', {
+								num: this.qid
+							}, { emulateJSON: true }).then(function(res) {
+								var msg = res.body;
+/*								console.log(JSON.stringify(msg));*/
+/*								console.log(JSON.stringify(msg[0].data));*/
+								this.bankname = msg[0].bankname;
+								this.money = msg[0].money;
+								this.banktype = msg[0].banktype;
+								this.bankowner = msg[0].bankowner;
+								this.money = msg[0].money;
+								this.items = msg[0].data;
+							}, function(res) {
+								console.log(res.status);
+							});
+						}
+					}
+
+				})
+				app.init();
+
+			}
+		</script>
+	</body>
+
+</html>
